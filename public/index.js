@@ -129,6 +129,64 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
     // Start the drawing loop
     draw();
+
+
+  ///////////////////// BASS TUNER ///////////////////////
+
+  // calculate the average frequency heard to get a more accurate reading
+  const getAverageFrequency = (frequencyArray) => {
+    const highestFrequencyIndex = frequencyArray.indexOf(Math.max(...frequencyArray));
+    const binWidth = audioContext.sampleRate / analyserNode.fftSize;
+    const averageFrequency = binWidth * highestFrequencyIndex;
+    return averageFrequency;
+  };
+
+  // target frequency for the E string (in Hz)
+  const targetFrequency = 164;
+
+  // is the current frequency within the tolerance range
+  const testTolerance = (frequency) => {
+    const lowerBound = targetFrequency - 1;
+    const upperBound = targetFrequency + 1;
+    return frequency >= lowerBound && frequency <= upperBound;
+  }
+
+  // display the frequency and if sharp/flat/in tune
+  const displayTuningStats = (frequency) => {
+    const frequencyReading = document.getElementById('frequency');
+    const tuning = document.getElementById('tuning');
+
+    frequencyReading.textContent = `${frequency.toFixed(2)} Hz`;
+
+    if (testTolerance(frequency)) {
+      tuning.textContent = 'In Tune';
+      tuning.style.color = 'green';
+    }
+
+    if (frequency < targetFrequency) {
+      tuning.textContent = 'Flat';
+      tuning.style.color = 'red';
+    }
+
+    if (frequency > targetFrequency) {
+      tuning.textContent = 'Sharp';
+      tuning.style.color = 'red';
+    }
+  };
+
+  // tuner loop
+  const tuner = () => {
+    const frequencyArray = new Uint8Array(analyserNode.frequencyBinCount);
+    analyserNode.getByteFrequencyData(frequencyArray);
+    const dominantFrequency = getAverageFrequency(frequencyArray);
+    displayTuningStats(dominantFrequency);
+    requestAnimationFrame(tuner);
+  };
+
+  // start the tuner loop
+  tuner();
+
+
   })
   .catch((error) => {
     console.log('No access :(', error);
