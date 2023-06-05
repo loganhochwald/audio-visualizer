@@ -142,10 +142,13 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
   };
 
   // target frequency for the E string (in Hz)
-  const targetFrequency = 164;
+  const stringEFrequency = 165;
+  const stringAFrequency = 211;
+  const stringDFrequency = 141; //or 211 from overtone
+  const stringGFrequency = 188;
 
   // is the current frequency within the tolerance range
-  const testTolerance = (frequency) => {
+  const testTolerance = (frequency, targetFrequency) => {
     const lowerBound = targetFrequency - 1;
     const upperBound = targetFrequency + 1;
     return frequency >= lowerBound && frequency <= upperBound;
