@@ -141,40 +141,55 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
     return averageFrequency;
   };
 
-  // target frequency for the E string (in Hz)
+  // target frequencies for specific strings (in Hz)
   const stringEFrequency = 165;
   const stringAFrequency = 211;
   const stringDFrequency = 141; //or 211 from overtone
   const stringGFrequency = 188;
 
-  // is the current frequency within the tolerance range
+  // is the current frequency within the tolerance range?
+  // re-usable for all strings
   const testTolerance = (frequency, targetFrequency) => {
     const lowerBound = targetFrequency - 1;
     const upperBound = targetFrequency + 1;
     return frequency >= lowerBound && frequency <= upperBound;
   }
 
-  // display the frequency and if sharp/flat/in tune
+  // display the frequency and if sharp/flat/in tune for all strings
   const displayTuningStats = (frequency) => {
-    const frequencyReading = document.getElementById('frequency');
-    const tuning = document.getElementById('tuning');
 
+    // making variables for the HTML id
+    const frequencyReading = document.getElementById('frequency');
+    const tuningE = document.getElementById('tuning-E');
+    const tuningA = document.getElementById('tuning-A');
+    const tuningD = document.getElementById('tuning-D');
+    const tuningG = document.getElementById('tuning-G');
+
+    // setting the frequency text content to the frequency with 2 decimal places (Hz)
     frequencyReading.textContent = `${frequency.toFixed(2)} Hz`;
 
-    if (testTolerance(frequency)) {
-      tuning.textContent = 'In Tune';
-      tuning.style.color = 'green';
+    // re-useable function to display the status for the string if sharp or flat
+    const allTuningStatus = (tuning, targetFrequency) => {
+      if (testTolerance(frequency, targetFrequency)) {
+        tuning.textContent = 'In Tune';
+        tuning.style.color = 'green';
+      } else if (frequency < targetFrequency) {
+        tuning.textContent = 'Flat';
+        tuning.style.color = 'red';
+      } else {
+        tuning.textContent = 'Sharp';
+        tuning.style.color = 'red';
+      }
     }
 
-    if (frequency < targetFrequency) {
-      tuning.textContent = 'Flat';
-      tuning.style.color = 'red';
-    }
+    // calling this function on all of the strings
+    allTuningStatus(tuningE, stringEFrequency);
+    allTuningStatus(tuningA, stringAFrequency);
+    allTuningStatus(tuningD, stringDFrequency);
+    allTuningStatus(tuningG, stringGFrequency);
 
-    if (frequency > targetFrequency) {
-      tuning.textContent = 'Sharp';
-      tuning.style.color = 'red';
-    }
+
+
   };
 
   // tuner loop
