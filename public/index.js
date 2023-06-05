@@ -21,7 +21,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
     sourceNode.connect(analyserNode);
 
     // connect the analyser node to the destination of the audioContext constructor
-    analyserNode.connect(audioContext.destination);
+    // analyserNode.connect(audioContext.destination);
 
     // // canvas element in the static HTML file is called so the drawing can occur, has id='visualizationCanvas'
     // const waveformCanvas = document.getElementById('visualizationCanvas');
