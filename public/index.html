@@ -11,14 +11,37 @@
   <canvas id="visualizationCanvas"></canvas>
   <canvas id="frequencyCanvas"></canvas>
 
-  <p>Frequency: <span id="frequency"></span></p>
-  <p>E Tuning: <span id="tuning-E"></span></p>
-  <p>A Tuning: <span id="tuning-A"></span></p>
-  <p>D Tuning: <span id="tuning-D"></span></p>
-  <p>G Tuning: <span id="tuning-G"></span></p>
+  <p>Average Frequency: <span id="frequency"></span></p>
+  <button onclick="showTuning('E')">E String</button>
+  <button onclick="showTuning('A')">A String</button>
+  <button onclick="showTuning('D')">D String</button>
+  <button onclick="showTuning('G')">G String</button>
 
-
+  <p class="E" style="display: block;">E : <span id="tuning-E"></span></p>
+  <p class="A" style="display: none;">A : <span id="tuning-A"></span></p>
+  <p class="D" style="display: none;">D : <span id="tuning-D"></span></p>
+  <p class="G" style="display: none;">G : <span id="tuning-G"></span></p>
 
   <script src="./index.js"></script>
+
+  <script>
+    function showTuning(tuning) {
+      const tunings = ['E', 'A', 'D', 'G'];
+
+      // hide all of the strings
+      tunings.forEach((string) => {
+        const element = document.getElementsByClassName(string);
+        for (let i = 0; i < element.length; i++) {
+          element[i].style.display = 'none';
+        }
+      });
+
+      // then show only the selected string
+      const showString = document.getElementsByClassName(tuning);
+      for (let i = 0; i < showString.length; i++) {
+        showString[i].style.display = 'block';
+      }
+    }
+  </script>
 </body>
 </html>
