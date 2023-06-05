@@ -174,15 +174,20 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
     // re-useable function to display the status for the string if sharp or flat
     const allTuningStatus = (tuning, targetFrequency) => {
-      if (testTolerance(frequency, targetFrequency)) {
-        tuning.textContent = 'In Tune';
-        tuning.style.color = 'green';
-      } else if (frequency < targetFrequency) {
-        tuning.textContent = 'Flat';
-        tuning.style.color = 'red';
+
+      if(!frequency) {
+        tuning.textContent = '';
       } else {
-        tuning.textContent = 'Sharp';
-        tuning.style.color = 'red';
+        if (testTolerance(frequency, targetFrequency)) {
+          tuning.textContent = 'In Tune';
+          tuning.style.color = 'green';
+        } else if (frequency < targetFrequency) {
+          tuning.textContent = 'Flat';
+          tuning.style.color = 'red';
+        } else {
+          tuning.textContent = 'Sharp';
+          tuning.style.color = 'red';
+        }
       }
     }
 
