@@ -142,18 +142,22 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
   };
 
   // target frequencies for specific strings (in Hz)
-  const stringEFrequency = 165;
-  const stringAFrequency = 211;
-  const stringDFrequency = 141; //or 211 from overtone
-  const stringGFrequency = 188;
+  const stringEFrequency = [165, 211];
+  const stringAFrequency = [211];
+  const stringDFrequency = [141, 211];
+  const stringGFrequency = [188];
 
   // is the current frequency within the tolerance range?
   // re-usable for all strings
-  const testTolerance = (frequency, targetFrequency) => {
-    const lowerBound = targetFrequency - 1;
-    const upperBound = targetFrequency + 1;
-    return frequency >= lowerBound && frequency <= upperBound;
-  }
+  const testTolerance = (frequency, targetFrequencies) => {
+    for (const targetFrequency of targetFrequencies) {
+      const lowerBound = targetFrequency - 1;
+      const upperBound = targetFrequency + 1;
+      if (frequency >= lowerBound && frequency <= upperBound) {
+        return true;
+      }
+    }
+    return false;  }
 
   // display the frequency and if sharp/flat/in tune for all strings
   const displayTuningStats = (frequency) => {
