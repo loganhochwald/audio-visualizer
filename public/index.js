@@ -133,12 +133,12 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
   ///////////////////// BASS TUNER ///////////////////////
 
-  // calculate the average frequency heard to get a more accurate reading
-  const getAverageFrequency = (frequencyArray) => {
+  // calculate the highest amplitude
+  const getHighestAmplitude = (frequencyArray) => {
     const highestFrequencyIndex = frequencyArray.indexOf(Math.max(...frequencyArray));
     const binWidth = audioContext.sampleRate / analyserNode.fftSize;
-    const averageFrequency = binWidth * highestFrequencyIndex;
-    return averageFrequency;
+    const highestAmplitude = binWidth * highestFrequencyIndex;
+    return highestAmplitude;
   };
 
   // target frequencies for specific strings (in Hz)
@@ -157,7 +157,8 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         return true;
       }
     }
-    return false;  }
+    return false;
+  }
 
   // display the frequency and if sharp/flat/in tune for all strings
   const displayTuningStats = (frequency) => {
@@ -174,7 +175,6 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
     // re-useable function to display the status for the string if sharp or flat
     const allTuningStatus = (tuning, targetFrequency) => {
-
       if(!frequency) {
         tuning.textContent = '';
       } else {
@@ -205,7 +205,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
   const tuner = () => {
     const frequencyArray = new Uint8Array(analyserNode.frequencyBinCount);
     analyserNode.getByteFrequencyData(frequencyArray);
-    const dominantFrequency = getAverageFrequency(frequencyArray);
+    const dominantFrequency = getHighestAmplitude(frequencyArray);
     displayTuningStats(dominantFrequency);
     requestAnimationFrame(tuner);
   };
