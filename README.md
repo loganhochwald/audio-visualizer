@@ -1,7 +1,7 @@
 # audio-visualizer
 
 # Introduction
-This is extremely basic bass tuner and audio visualizer; it was done on a time crunch. I have not used browser APIs before this project.
+Tune your bass accounting for its specific harmonics with your web browser's microphone and visualize the frequency input to determine the loudest and most prominent frequency.
 
 # Frameworks/Libraries
 I built this using vanilla Javascript, Express, Node, and two browser APIs: Web Audio and Canvas.
