@@ -180,13 +180,13 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
       } else {
         if (testTolerance(frequency, targetFrequency)) {
           tuning.textContent = 'In Tune';
-          tuning.style.color = 'green';
+          tuning.style.color = '#028A0F';
         } else if (frequency < targetFrequency) {
           tuning.textContent = 'Flat';
-          tuning.style.color = 'red';
+          tuning.style.color = 'rgb(197 60 60)';
         } else {
           tuning.textContent = 'Sharp';
-          tuning.style.color = 'red';
+          tuning.style.color = 'rgb(197 60 60)';
         }
       }
     }

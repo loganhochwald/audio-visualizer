@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <title>Audio Visualizer</title>
 </head>
 <body>
@@ -12,36 +13,47 @@
   <canvas id="frequencyCanvas"></canvas>
 
   <p>Average Frequency: <span id="frequency"></span></p>
-  <button onclick="showTuning('E')">E String</button>
-  <button onclick="showTuning('A')">A String</button>
-  <button onclick="showTuning('D')">D String</button>
-  <button onclick="showTuning('G')">G String</button>
+<!-- Modify your HTML buttons as follows -->
+<button onclick="showTuning('E')" id="button-E" class="selected">E String</button>
+<button onclick="showTuning('A')" id="button-A">A String</button>
+<button onclick="showTuning('D')" id="button-D">D String</button>
+<button onclick="showTuning('G')" id="button-G">G String</button>
 
-  <p class="E" style="display: block;">E : <span id="tuning-E"></span></p>
-  <p class="A" style="display: none;">A : <span id="tuning-A"></span></p>
-  <p class="D" style="display: none;">D : <span id="tuning-D"></span></p>
-  <p class="G" style="display: none;">G : <span id="tuning-G"></span></p>
+  <p class="E" style="display: block;"><span id="tuning-E"></span></p>
+  <p class="A" style="display: none;"><span id="tuning-A"></span></p>
+  <p class="D" style="display: none;"><span id="tuning-D"></span></p>
+  <p class="G" style="display: none;"><span id="tuning-G"></span></p>
 
   <script src="./index.js"></script>
 
   <script>
     function showTuning(tuning) {
-      const tunings = ['E', 'A', 'D', 'G'];
+        const tunings = ['E', 'A', 'D', 'G'];
 
-      // hide all of the strings
-      tunings.forEach((string) => {
-        const element = document.getElementsByClassName(string);
-        for (let i = 0; i < element.length; i++) {
-          element[i].style.display = 'none';
+        // Hide all of the strings
+        tunings.forEach((string) => {
+            const element = document.getElementsByClassName(string);
+            for (let i = 0; i < element.length; i++) {
+                element[i].style.display = 'none';
+            }
+        });
+
+        // Show only the selected string
+        const showString = document.getElementsByClassName(tuning);
+        for (let i = 0; i < showString.length; i++) {
+            showString[i].style.display = 'block';
         }
-      });
 
-      // then show only the selected string
-      const showString = document.getElementsByClassName(tuning);
-      for (let i = 0; i < showString.length; i++) {
-        showString[i].style.display = 'block';
-      }
+        // Add the "selected" class to the clicked button
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            button.classList.remove('selected');
+        });
+
+        const selectedButton = document.getElementById('button-' + tuning);
+        selectedButton.classList.add('selected');
     }
+
   </script>
 </body>
 </html>
